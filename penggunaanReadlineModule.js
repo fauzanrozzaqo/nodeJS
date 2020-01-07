@@ -11,6 +11,19 @@ rl.question(`what is ${num1} + ${num2}? \n`,
     if(userInput.trim() == answer){
         rl.close();
     }
+    else {
+        rl.setPrompt('Incorrect response please try again\n');
+        rl.prompt();
+        rl.on('line',(userInput)=>{
+            if(userInput.trim() == answer){
+                rl.close();
+            }
+            else {
+                rl.setPrompt(`Your answer of ${ userInput } is incorrect try again \n`);
+                rl.prompt();
+            }
+        });
+    }
 });
 
 rl.on('close', ()=>{
