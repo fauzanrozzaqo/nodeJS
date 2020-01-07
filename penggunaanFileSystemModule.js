@@ -36,9 +36,27 @@ const  fs = require('fs');
 //     console.log('Successfully appended data to file');
 // })
 
-fs.unlink('example2.txt',(err)=>{
+//menghapus file menggunakan file system module nodejs
+// fs.unlink('example2.txt',(err)=>{
+//     if(err)
+//     console.log(err);
+//     else
+//     console.log('successfully deleted the file');
+// });
+
+//membuat folder menggunakan file system module
+fs.mkdir('tutorial', (err)=>{
     if(err)
     console.log(err);
-    else
-    console.log('successfully deleted the file');
+    else{
+
+        //menghapus folder menggunakan file system module
+        // fs.rmdir('tutorial', (err)=>{
+        //     if(err)
+        //     console.log(err);
+        //     else{
+        //         console.log('successfully deleted the folder');
+        //     }
+        // });
+    }
 });
