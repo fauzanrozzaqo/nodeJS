@@ -45,18 +45,59 @@ const  fs = require('fs');
 // });
 
 //membuat folder menggunakan file system module
-fs.mkdir('tutorial', (err)=>{
+// fs.mkdir('tutorial', (err)=>{
+//     if(err)
+//     console.log(err);
+//     else{
+
+//         //menghapus folder menggunakan file system module
+//         // fs.rmdir('tutorial', (err)=>{
+//         //     if(err)
+//         //     console.log(err);
+//         //     else{
+//         //         console.log('successfully deleted the folder');
+//         //     }
+//         // });
+
+//         //menulis ke dalam file menggunakan file system module
+//         // fs.writeFile('./tutorial/example.txt','123', (err)=>{
+//         //     if(err)
+//         //     console.log(err);
+//         //     else
+//         //     console.log('successfully created file');
+//         // });
+//     }
+//});
+//menghapus folder yang memiliki file didalamnya menggunakan file system module
+// fs.unlink('./tutorial/example.txt',(err)=>{
+//         if(err)
+//         console.log(err);
+//         else
+//         {
+//             fs.rmdir('tutorial',(err)=>{
+//                 if(err){
+//                     console.log(err);
+//                 }
+//                 else {
+//                     console.log('deleted folder');
+//                 }
+//             });
+//         }
+//     });
+
+//menghapus folder yang memiliki banyak file didalamnya
+fs.readdir('example',(err,files)=>{
     if(err)
     console.log(err);
     else{
-
-        //menghapus folder menggunakan file system module
-        // fs.rmdir('tutorial', (err)=>{
-        //     if(err)
-        //     console.log(err);
-        //     else{
-        //         console.log('successfully deleted the folder');
-        //     }
-        // });
+        for(let file of files){
+            fs.unlink('./example'+file,()=>{
+                if(err)
+                console.log(err);
+                else{
+                    console.log('successfully deleted file');
+                }
+            });
+        }
     }
 });
