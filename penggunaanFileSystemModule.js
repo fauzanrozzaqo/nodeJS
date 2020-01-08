@@ -91,7 +91,7 @@ fs.readdir('example',(err,files)=>{
     console.log(err);
     else{
         for(let file of files){
-            fs.unlink('./example'+file,()=>{
+            fs.unlink('./example/'+file,(err)=>{
                 if(err)
                 console.log(err);
                 else{
