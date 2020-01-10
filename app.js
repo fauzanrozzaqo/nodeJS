@@ -1,32 +1,37 @@
-const express = require('express');
-const path = require('path');
-const app = express();
-const bodyParser = require('body-parser');
+const Joi = require('joi');
 
-//penggunaan serve static in node js
-app.use('/public',express.static('static'));
-//membuat page kita dapat melewati url encoded
-app.use(bodyParser.urlencoded({extended: false}));
+const arrayString = ['banana', 'bacon', 'cheese'];
+const arrayObjects = [{ example: 'example1'}, {example: 'example2'}, {example: 'example3'}];
 
-app.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname,'static','index.html'));
+const userInput = {
+    personalInfo: {
+        streetAddress: 'Jl. H Awaludin 1',
+        city: 'Jakarta',
+        state: '05'
+    },
+    // preferences : arrayString
+    preferences : arrayObjects
+};
+
+const personalInfoSchema = Joi.object().keys({
+    streetAddress : Joi.string().trim().required(),
+    city: Joi.string().trim().required(),
+    state: Joi.string().trim().length(2).required()
 });
 
-app.post('/', (req,res)=>{
-    //melihat apakah data dari form di index.html terbaca atau tidak
-    console.log(req.body);
-    //database work here
-    res.send('succesfully posted data');
+//const preferencesSchema = Joi.array().items(Joi.string());
+const preferencesSchema = Joi.array().items(Joi.object().keys({
+    example: Joi.string().required()
+}));
+
+const schema = Joi.object().keys({
+    personalInfo : personalInfoSchema,
+    preferences: preferencesSchema
 });
-app.listen(3000);
-// app.get('/example', (req,res)=>{
-//     res.send('hitting example route');
-// });
 
-// menggunakan query dan params method
-// app.get('/example/:name/:age', (req, res)=>{
-//     console.log(req.params);
-//     console.log(req.query);
-//     res.send(req.params.name + " : " + req.params.age);
-// });
-
+Joi.validate(userInput, schema, (err, result)=>{
+    if(err)
+    console.log(err);
+    else
+    console.log(result);
+});
