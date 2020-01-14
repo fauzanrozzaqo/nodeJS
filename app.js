@@ -1,37 +1,19 @@
-const Joi = require('joi');
+const express = require('express');
+const path = require('path');
+const app = express();
 
-const arrayString = ['banana', 'bacon', 'cheese'];
-const arrayObjects = [{ example: 'example1'}, {example: 'example2'}, {example: 'example3'}];
-
-const userInput = {
-    personalInfo: {
-        streetAddress: 'Jl. H Awaludin 1',
-        city: 'Jakarta',
-        state: '05'
-    },
-    // preferences : arrayString
-    preferences : arrayObjects
-};
-
-const personalInfoSchema = Joi.object().keys({
-    streetAddress : Joi.string().trim().required(),
-    city: Joi.string().trim().required(),
-    state: Joi.string().trim().length(2).required()
+//penggunaan serve static in node js
+app.use('/public',express.static('static'));
+//menyediakan dynamic data
+//membuat views folder express mengenalinya karena default namenya adalah views
+app.set('view engine', 'ejs');
+//menyediakan form kepada user
+app.get('/:userQuery',(req,res)=>{
+    res.render('index',{data : {userQuery: req.params.userQuery,
+        searchResults : ['book1', 'book2', 'book3'],
+        loggedIn : true,
+        username : 'Fauzan Rozzaqo Kusuma'
+    }});
 });
 
-//const preferencesSchema = Joi.array().items(Joi.string());
-const preferencesSchema = Joi.array().items(Joi.object().keys({
-    example: Joi.string().required()
-}));
-
-const schema = Joi.object().keys({
-    personalInfo : personalInfoSchema,
-    preferences: preferencesSchema
-});
-
-Joi.validate(userInput, schema, (err, result)=>{
-    if(err)
-    console.log(err);
-    else
-    console.log(result);
-});
+app.listen(3000);
