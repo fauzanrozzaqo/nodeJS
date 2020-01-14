@@ -1,18 +1,12 @@
 const express = require('express');
-const bodyParser = require('body-parser');
+const path = require('path');
 const app = express();
 
-app.use(bodyParser.json());
-//membuat middleware (memanggil middleware)
-app.use((req,res,next)=>{
-    //console.log(req.url, req.method);
-    req.banana = 'banana';
-    next();
-});
+app.use('/public',express.static('static'));
+app.set('view engine', 'ejs');
 
-app.get('/',(req,res)=>{
-    console.log(req.banana);
-    res.send('MiddleWare');
-});
+const people = require('./routes/people');
+
+app.use('/people', people);
 
 app.listen(3000);
